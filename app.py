@@ -27,4 +27,6 @@ def test():
 def page():
     return "Tama on sive "+str(id)
 
-
+@app.route("/pictures")
+def pictures():
+    render_templates("pictures.html", message="Some picture made by Haskell")
