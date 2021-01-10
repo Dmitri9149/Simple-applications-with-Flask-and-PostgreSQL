@@ -7,6 +7,7 @@ app = Flask(__name__)
 def index():
     words = ["apina", "banaani", "cembalo"]
     return render_template("index.html", message="Tervetuloa", items=words)
+#    return "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHellOOOOOOOOOOOOOOOOOO !"
 
 @app.route("/page1")
 def page1():
