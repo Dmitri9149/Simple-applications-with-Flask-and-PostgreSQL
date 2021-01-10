@@ -23,6 +23,18 @@ def test():
         content += str(i)+" "
     return content
 
+@app.route("/order")
+def order():
+    return render_template("order.html")
+
+@app.route("/result1", methods=["POST"])
+def result1():
+    pizza = request.form["pizza"]
+    extras = request.form.getlist("extra")
+    message = request.form["message"]
+    return render_template("result1.html", pizza=pizza,
+                                          extras=extras,
+                                          message=message)
 @app.route("/page/<int:id>")
 def page():
     return "Tama on sive "+str(id)
