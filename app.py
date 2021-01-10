@@ -29,4 +29,4 @@ def page():
 
 @app.route("/pictures")
 def pictures():
-    return render_templates("pictures.html", message="Some picture made by Haskell")
+    return render_template("pictures.html", message="Some picture made by Haskell")
