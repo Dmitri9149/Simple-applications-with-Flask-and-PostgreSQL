@@ -27,3 +27,4 @@ def send():
     db.session.execute(sql, {"content":content})
     db.session.commit()
     return redirect("/")
+
