@@ -42,3 +42,13 @@ def poll(id):
     result = db.session.execute(sql, {"id":id})
     choices = result.fetchall()
     return render_template("poll.html", id=id, topic=topic, choices=choices)
+
+@app.route("/answer", methods=["POST"])
+def answer():
+    poll_id = request.form["id"]
+    if "answer" in request.form:
+        choice_id = request.form["answer"]
+        sql = "INSERT INTO answers (choice_id, sent_at) VALUES (:choice_id, NOW())"
+        db.session.execute(sql, {"choice_id":choice_id})
+        db.session.commit()
+    return redirect("/result/"+str(poll_id))
