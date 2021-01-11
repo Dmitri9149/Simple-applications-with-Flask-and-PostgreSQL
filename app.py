@@ -19,3 +19,17 @@ def index():
 def new():
     return render_template("new.html")
 
+@app.route("/create", methods=["POST"])
+def create():
+    topic = request.form["topic"]
+    sql = "INSERT INTO polls (topic, created_at) VALUES (:topic, NOW()) RETURNING id"
+    result = db.session.execute(sql, {"topic":topic})
+    poll_id = result.fetchone()[0]
+    choices = request.form.getlist("choice")
+    for choice in choices:
+        if choice != "":
+            sql = "INSERT INTO choices (poll_id, choice) VALUES (:poll_id, :choice)"
+            db.session.execute(sql, {"poll_id":poll_id, "choice":choice})
+    db.session.commit()
+    return redirect("/")
+
