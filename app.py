@@ -10,21 +10,8 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    result = db.session.execute("SELECT COUNT(*) FROM messages")
-    count = result.fetchone()[0]
-    result = db.session.execute("SELECT content FROM messages")
-    messages = result.fetchall()
-    return render_template("index.html", count=count, messages=messages) 
-
-@app.route("/new")
-def new():
-    return render_template("new.html")
-
-@app.route("/send", methods=["POST"])
-def send():
-    content = request.form["content"]
-    sql = "INSERT INTO messages (content) VALUES (:content)"
-    db.session.execute(sql, {"content":content})
-    db.session.commit()
-    return redirect("/")
+    sql = "SELECT id, topic, created_at FROM polls ORDER BY id DESC"
+    result = db.session.execute(sql)
+    polls = result.fetchall()
+    return render_template("index.html", polls=polls)
 
