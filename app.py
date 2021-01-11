@@ -1,53 +1,27 @@
 from flask import Flask
-from flask import render_template, request
+from flask import redirect, render_template, request
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///new_db"
+db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    words = ["apina", "banaani", "cembalo"]
-    return render_template("index.html", message="Tervetuloa", items=words)
-#    return "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHellOOOOOOOOOOOOOOOOOO !"
+    result = db.session.execute("SELECT COUNT(*) FROM messages")
+    count = result.fetchone()[0]
+    result = db.session.execute("SELECT content FROM messages")
+    messages = result.fetchall()
+    return render_template("index.html", count=count, messages=messages) 
 
-@app.route("/page1")
-def page1():
-    return "Tämä on Page1"
+@app.route("/new")
+def new():
+    return render_template("new.html")
 
-@app.route("/page2")
-def page2():
-    return "Tama on Page2"
-
-@app.route("/test")
-def test():
-    content = ""
-    for i in range(1,101):
-        content += str(i)+" "
-    return content
-
-@app.route("/order")
-def order():
-    return render_template("order.html")
-
-@app.route("/result1", methods=["POST"])
-def result1():
-    pizza = request.form["pizza"]
-    extras = request.form.getlist("extra")
-    message = request.form["message"]
-    return render_template("result1.html", pizza=pizza,
-                                          extras=extras,
-                                          message=message)
-@app.route("/page/<int:id>")
-def page():
-    return "Tama on sive "+str(id)
-
-@app.route("/pictures")
-def pictures():
-    return render_template("pictures.html", message="Some picture made by Haskell")
-
-@app.route("/form")
-def form():
-    return render_template("/form.html")
-@app.route("/result", methods=["POST"])
-def result(): 
-    return render_template("result.html", name = request.form["name"])
-
+@app.route("/send", methods=["POST"])
+def send():
+    content = request.form["content"]
+    sql = "INSERT INTO messages (content) VALUES (:content)"
+    db.session.execute(sql, {"content":content})
+    db.session.commit()
+    return redirect("/")
