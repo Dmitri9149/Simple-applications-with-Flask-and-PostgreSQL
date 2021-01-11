@@ -15,3 +15,7 @@ def index():
     polls = result.fetchall()
     return render_template("index.html", polls=polls)
 
+@app.route("/new")
+def new():
+    return render_template("new.html")
+
