@@ -33,3 +33,12 @@ def create():
     db.session.commit()
     return redirect("/")
 
+@app.route("/poll/<int:id>")
+def poll(id):
+    sql = "SELECT topic FROM polls WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    topic = result.fetchone()[0]
+    sql = "SELECT id, choice FROM choices WHERE poll_id=:id"
+    result = db.session.execute(sql, {"id":id})
+    choices = result.fetchall()
+    return render_template("poll.html", id=id, topic=topic, choices=choices)
