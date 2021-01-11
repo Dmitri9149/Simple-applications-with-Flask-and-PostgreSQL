@@ -52,3 +52,14 @@ def answer():
         db.session.execute(sql, {"choice_id":choice_id})
         db.session.commit()
     return redirect("/result/"+str(poll_id))
+
+@app.route("/result/<int:id>")
+def result(id):
+    sql = "SELECT topic FROM polls WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    topic = result.fetchone()[0]
+    sql = "SELECT c.choice, COUNT(a.id) FROM choices c LEFT JOIN answers a " \
+          "ON c.id=a.choice_id WHERE c.poll_id=:poll_id GROUP BY c.id"
+    result = db.session.execute(sql, {"poll_id":id})
+    choices = result.fetchall()
+    return render_template("result.html", topic=topic, choices=choices)
