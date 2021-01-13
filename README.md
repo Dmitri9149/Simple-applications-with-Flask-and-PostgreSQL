@@ -1,6 +1,15 @@
-The app on the 'main' (this branch is) 'independent' in some way from 'master' branch. We can create  and retrieve short messages which are stored in local db. 
+The project is for learning Flask (Python) and PostgreSQL.
+The project is as in the Helsinki University Course : https://hy-tsoha.github.io/materiaali/index part1/part2
 
-Is running on localhost:5000 ('flask run').
+
+The app is running on localhost:5000 ('flask run').
+
+Functionality: 
+
+- create / review questions 
+- create possible answers for a question
+- choose a question and mark an answer from the list of possible answers
+- check for a question quantity for every possible answer
 
 
 
