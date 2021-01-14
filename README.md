@@ -1,15 +1,16 @@
-The project is for learning Flask (Python) and PostgreSQL.
-The project is as in the Helsinki University Course : https://hy-tsoha.github.io/materiaali/index part1/part2
+### Database application with Flask (Pyhon) and PostgreSQL.
 
+The project is for learning Flask (Python) and PostgreSQL DB.
 
-The app is running on localhost:5000 ('flask run').
+The project is as it is recommended in the course: https://materiaalit.github.io/tsoha-19/ (Helsinki University), part1...part2.
 
-Functionality: 
+The functionality: 
+- generate / save questions (and a set of possible answers) in DB (new_db).
+- show existing questions.
+- choose a question 
+- chose an answer from the 'answers menu'
+- check the quantity of different answers for a question (made by different users).
 
-- create / review questions 
-- create possible answers for a question
-- choose a question and mark an answer from the list of possible answers
-- check for a question quantity for every possible answer
-
-
+Run as :  
+`flask run` on localhost:5000.
 
